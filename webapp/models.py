@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 # Create your models here.
 class STATUS(models.TextChoices):
@@ -10,7 +10,7 @@ class STATUS(models.TextChoices):
 
 class Category(models.Model):
     title=models.CharField(max_length=100)
-    slug=models.SlugField(max_length=100,unique=True)
+    slug=models.SlugField(max_length=100)
     description=models.TextField(max_length=200,null=True,blank=True)
 
 class Post(models.Model):

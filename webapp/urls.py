@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views  # Or from webapp import views
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
- # Example route
-]
+
+routers=DefaultRouter()
+routers.register('categories',views.CategoryViewSet,basename='category')
+urlpatterns =  routers.urls
+
