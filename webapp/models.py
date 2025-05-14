@@ -18,6 +18,7 @@ class Post(models.Model):
     title=models.CharField(max_length=200,unique=True)
     slug=models.SlugField(max_length=200)
     summary=models.CharField(max_length=200,null=True,blank=True)
+    content=models.TextField(max_length=500)
     status=models.CharField(max_length=1,choices=STATUS.choices,default=STATUS.Draft)
     image=models.ImageField(upload_to='post',default=None)
     category=models.ManyToManyField(Category,related_name='posts')
