@@ -68,3 +68,18 @@ class PostViewSet(viewsets.ModelViewSet):
 
         serializer=self.serializer_class(instance)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+    @action(detail=True,methods=['POST'])
+    def set_category(self,request,pk,*args,**kwargs):
+        request_browser = request.data.get('data_id')
+        try:
+            # request_browser=request.data.get('data_id')
+            database=Post.objects.filter(pk=pk).first()
+            #database.category.clear()
+            database.category.set(request_browser)
+            serializer=self.serializer_class(database)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except :
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
