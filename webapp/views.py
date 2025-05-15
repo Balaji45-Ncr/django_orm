@@ -46,8 +46,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 
-
-
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializers
@@ -59,3 +57,29 @@ class LikeViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
+
+    @action(detail=True,methods=['PATCH'])
+    def add_category(self,request,pk,*args,**kwargs):
+        category=request.data.get('ids')
+        instance=Post.objects.filter(pk=pk).first()
+
+        category=set(category)
+        instance.category.add(*category)
+
+        serializer=self.serializer_class(instance)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    @action(detail=True,methods=['POST'])
+    def set_category(self,request,pk,*args,**kwargs):
+        request_browser = request.data.get('data_id')
+        try:
+            # request_browser=request.data.get('data_id')
+            database=Post.objects.filter(pk=pk).first()
+            #database.category.clear()
+            database.category.set(request_browser)
+            serializer=self.serializer_class(database)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except :
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
